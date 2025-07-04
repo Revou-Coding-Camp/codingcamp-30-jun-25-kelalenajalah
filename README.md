@@ -1,1 +1,1 @@
-**Ini adalah lengkah awal saya dalam menjadi full stak developer, setiap langkah adalah keberanian.**
+**Simpel aja file JS dan CSS jadi satu pake framwork, karena lebih efisian waktu dari pada bolak balok tab**
