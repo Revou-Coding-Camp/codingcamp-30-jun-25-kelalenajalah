@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tony's Creative Portfolio</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        .nav-link {
+            transition: all 0.3s ease-in-out;
+        }
+        .nav-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .project-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+        .project-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .gallery-container:hover .project-card:not(:hover) {
+            opacity: 0.5;
+            filter: grayscale(80%);
+            transform: scale(0.95);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            outline: none;
+            transition: all 0.2s ease-in-out;
+        }
+        .form-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+        }
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.6s ease-out forwards;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-800 bg-gray-50 dark:bg-gray-900 dark:text-gray-100">
+
+    <header class="flex flex-col md:flex-row items-center justify-between p-6 bg-white shadow-sm sticky top-0 z-50 dark:bg-gray-800 dark:shadow-lg">
+        <div class="flex items-center mb-4 md:mb-0">
+            <img src="/img/Profile.jpg" class="w-16 h-16 rounded-full mr-3 border-2 border-indigo-500 p-1" alt="Logo">
+            <span class="text-2xl font-extrabold text-indigo-700 tracking-wide dark:text-indigo-400">TonyCodes</span>
+        </div>
+        <nav class="flex flex-wrap justify-center md:justify-end gap-3 md:gap-6 text-lg font-medium">
+            <a href="#profile" class="nav-link px-4 py-2 rounded-full text-gray-700 hover:bg-indigo-500 hover:text-white transition duration-300 ease-in-out dark:text-gray-300 dark:hover:bg-indigo-600 dark:hover:text-white">Profile</a>
+            <a href="#portfolio" class="nav-link px-4 py-2 rounded-full text-gray-700 hover:bg-indigo-500 hover:text-white transition duration-300 ease-in-out dark:text-gray-300 dark:hover:bg-indigo-600 dark:hover:text-white">Portfolio</a>
+            <a href="#documentation" class="nav-link px-4 py-2 rounded-full text-gray-700 hover:bg-indigo-500 hover:text-white transition duration-300 ease-in-out dark:text-gray-300 dark:hover:bg-indigo-600 dark:hover:text-white">Dokumentasi</a>
+            <a href="#about" class="nav-link px-4 py-2 rounded-full text-gray-700 hover:bg-indigo-500 hover:text-white transition duration-300 ease-in-out dark:text-gray-300 dark:hover:bg-indigo-600 dark:hover:text-white">About Me</a>
+        </nav>
+        <div class="relative mt-4 md:mt-0 flex items-center gap-4">
+            <input class="placeholder:text-gray-400 p-2 pl-10 bg-gray-100 rounded-full border border-gray-200 focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 transition duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:placeholder:text-gray-500"
+                   placeholder="Ctrl + K"
+                   type="text"
+                   name="search"
+                   id="search-input"/>
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+
+            <button id="themeToggle" class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200">
+                <svg id="sunIcon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12H2m15.325-4.243l.707-.707M3.934 19.071l.707-.707m0-11.314l-.707-.707m11.314 0l.707-.707M6.343 17.657l-.707.707m12.728 0l-.707.707M6.343 6.343l-.707-.707"/>
+                </svg>
+                <svg id="moonIcon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-10">
+
+        <section id="profile" class="flex flex-col md:flex-row items-center justify-between p-8 bg-gradient-to-r from-indigo-50 to-white rounded-xl shadow-lg mb-16 dark:from-gray-800 dark:to-gray-900 dark:shadow-xl">
+            <div class="md:w-1/2 text-center md:text-left mb-8 md:mb-0">
+                <h1 class="text-5xl font-extrabold text-indigo-800 mb-4 leading-tight dark:text-indigo-400">Halo, saya <span class="text-indigo-600 dark:text-indigo-300">Tony!</span></h1>
+                <p class="text-xl text-gray-600 mb-6 dark:text-gray-300">Selamat datang di portofolio digital saya, hasil pembelajaran dari <strong class="text-indigo-500 dark:text-indigo-200">REVOU Academy</strong>. seru banget belajar di sana, banyak moderator yang handal.</p>
+                <button class="bg-indigo-600 text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:bg-indigo-700 transform hover:scale-105 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:bg-indigo-700 dark:hover:bg-indigo-800 dark:focus:ring-indigo-600">
+                    Pelajari Lebih Lanjut
+                </button>
+            </div>
+            <div class="md:w-1/2 flex justify-center md:justify-end">
+                <img src="/img/my.png" alt="Tony's Avatar" class="w-2/3 md:w-full max-w-sm rounded-full border-4 border-white shadow-2xl transition-transform duration-500 ease-in-out hover:scale-105 dark:border-gray-700 dark:shadow-none">
+            </div>
+        </section>
+
+        <section id="portfolio" class="mb-16">
+            <h2 class="text-4xl font-extrabold text-center text-indigo-800 mb-12 dark:text-indigo-400">Proyek Pilihan Saya</h2>
+            <div id="project-gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 gallery-container">
+                <a href="#" class="project-card block bg-white rounded-xl shadow-md p-5 text-center dark:bg-gray-800 dark:shadow-lg">
+                    <img src="/img/moh hata.jpg" class="w-full h-48 object-cover rounded-lg mb-4 border border-gray-100 dark:border-gray-700" alt="Mohammad Hatta Design">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Mohammad Hatta Design</h3>
+                    <p class="text-gray-500 text-sm mt-1 dark:text-gray-400">Desain grafis inspiratif</p>
+                </a>
+                <a href="#" class="project-card block bg-white rounded-xl shadow-md p-5 text-center dark:bg-gray-800 dark:shadow-lg">
+                    <img src="/img/kesaktian pancasila.png" class="w-full h-48 object-cover rounded-lg mb-4 border border-gray-100 dark:border-gray-700" alt="Hari Kesaktian Pancasila">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Hari Kesaktian Pancasila</h3>
+                    <p class="text-gray-500 text-sm mt-1 dark:text-gray-400">Ilustrasi sejarah</p>
+                </a>
+                <a href="#" class="project-card block bg-white rounded-xl shadow-md p-5 text-center dark:bg-gray-800 dark:shadow-lg">
+                    <img src="img/indomie.jpg" class="w-full h-48 object-cover rounded-lg mb-4 border border-gray-100 dark:border-gray-700" alt="Poster Indomie">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Poster Indomie</h3>
+                    <p class="text-gray-500 text-sm mt-1 dark:text-gray-400">Branding dan promosi</p>
+                </a>
+                <a href="#" class="project-card block bg-white rounded-xl shadow-md p-5 text-center dark:bg-gray-800 dark:shadow-lg">
+                    <img src="img/sabrina carpenter.png" class="w-full h-48 object-cover rounded-lg mb-4 border border-gray-100 dark:border-gray-700" alt="Sabrina Carpenter Poster">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Sabrina Carpenter Poster</h3>
+                    <p class="text-gray-500 text-sm mt-1 dark:text-gray-400">Desain kreatif untuk musik</p>
+                </a>
+            </div>
+        </section>
+
+        <section id="contact" class="flex flex-col lg:flex-row gap-8 p-8 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl shadow-xl max-w-full mx-auto mb-16 dark:from-gray-800 dark:to-gray-900 dark:shadow-xl">
+            <div class="lg:w-1/2">
+                <h2 class="text-3xl font-extrabold text-center text-indigo-800 mb-8 dark:text-indigo-400">Kirim Pesan kepada Saya</h2>
+                <form id="messageForm" class="space-y-6">
+                    <div>
+                        <label for="name" class="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Nama Lengkap</label>
+                        <input type="text" id="name" name="name" class="form-input dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:placeholder:text-gray-500" placeholder="Masukkan nama Anda" required>
+                    </div>
+                    <div>
+                        <label for="birthdate" class="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Tanggal Lahir</label>
+                        <input type="date" id="birthdate" name="birthdate" class="form-input dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:placeholder:text-gray-500" required>
+                    </div>
+                    <div>
+                        <label class="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Jenis Kelamin</label>
+                        <div class="flex items-center space-x-6">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="gender" value="Laki-Laki" class="form-radio text-indigo-600 focus:ring-indigo-500 dark:text-indigo-400 dark:focus:ring-indigo-300" required>
+                                <span class="ml-2 text-gray-700 dark:text-gray-300">Laki-Laki</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="gender" value="Perempuan" class="form-radio text-indigo-600 focus:ring-indigo-500 dark:text-indigo-400 dark:focus:ring-indigo-300">
+                                <span class="ml-2 text-gray-700 dark:text-gray-300">Perempuan</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="message" class="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Pesan Anda</label>
+                        <textarea id="message" name="message" class="form-input form-textarea dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:placeholder:text-gray-500" placeholder="Tulis pesan Anda di sini..." required></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="bg-indigo-600 text-white px-10 py-3 rounded-full text-lg font-semibold shadow-md hover:bg-indigo-700 transform hover:scale-105 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:bg-indigo-700 dark:hover:bg-indigo-800 dark:focus:ring-indigo-600">
+                            Kirim Pesan
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="lg:w-1/2 mt-8 lg:mt-0">
+                <h2 class="text-3xl font-extrabold text-center text-indigo-800 mb-8 dark:text-indigo-400">Data Pesan Terkirim</h2>
+                <div class="overflow-x-auto bg-white rounded-lg shadow-md dark:bg-gray-800 dark:shadow-lg">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-700">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
+                                    No.
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
+                                    Nama Lengkap
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
+                                    Tgl. Lahir
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
+                                    Jenis Kelamin
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
+                                    Pesan
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="messageTableBody" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                            </tbody>
+                    </table>
+                </div>
+                <p id="noDataMessage" class="text-center text-gray-500 mt-4 text-sm dark:text-gray-400">Belum ada data pesan yang terkirim.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('search-input').focus();
+            }
+        });
+
+        const sections = document.querySelectorAll('section');
+        const options = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        const projectCards = document.querySelectorAll('.project-card');
+
+        projectCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.zIndex = 10;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.zIndex = 1;
+            });
+        });
+
+        const messageForm = document.getElementById('messageForm');
+        const messageTableBody = document.getElementById('messageTableBody');
+        const noDataMessage = document.getElementById('noDataMessage');
+        let dataCounter = 0;
+
+        messageForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const birthdate = document.getElementById('birthdate').value;
+            const gender = document.querySelector('input[name="gender"]:checked').value;
+            const message = document.getElementById('message').value;
+
+            dataCounter++;
+
+            const newRow = messageTableBody.insertRow();
+            newRow.classList.add('hover:bg-gray-50', 'dark:hover:bg-gray-700');
+
+            const cellNo = newRow.insertCell();
+            const cellName = newRow.insertCell();
+            const cellBirthdate = newRow.insertCell();
+            const cellGender = newRow.insertCell();
+            const cellMessage = newRow.insertCell();
+
+            cellNo.textContent = dataCounter;
+            cellName.textContent = name;
+            cellBirthdate.textContent = birthdate;
+            cellGender.textContent = gender;
+            cellMessage.textContent = message;
+
+            [cellNo, cellName, cellBirthdate, cellGender, cellMessage].forEach(cell => {
+                cell.classList.add('px-6', 'py-4', 'whitespace-nowrap', 'text-sm', 'text-gray-800', 'dark:text-gray-200');
+            });
+
+            if (dataCounter > 0) {
+                noDataMessage.classList.add('hidden');
+            }
+
+            messageForm.reset();
+        });
+
+        // Fungsionalitas Dark Mode
+        const themeToggle = document.getElementById('themeToggle');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+        const htmlElement = document.documentElement;
+
+        // Cek preferensi tema dari local storage atau sistem
+        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme === 'dark' || (currentTheme === null && prefersDarkMode)) {
+            htmlElement.classList.add('dark');
+            moonIcon.classList.add('hidden');
+            sunIcon.classList.remove('hidden');
+        } else {
+            htmlElement.classList.remove('dark');
+            sunIcon.classList.add('hidden');
+            moonIcon.classList.remove('hidden');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                moonIcon.classList.add('hidden');
+                sunIcon.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
